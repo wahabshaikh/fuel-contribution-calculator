@@ -1,86 +1,121 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
+import type { NextPage } from "next";
+import Head from "next/head";
+import { useEffect, useState } from "react";
 
 const Home: NextPage = () => {
+  const [price, setPrice] = useState(0);
+  const [mileage, setMileage] = useState(0);
+  const [distance, setDistance] = useState(0);
+  const [people, setPeople] = useState(1);
+  const [amount, setAmount] = useState(0);
+
+  useEffect(() => {
+    const amount = (price * (distance / mileage)) / people;
+
+    setAmount(amount || 0);
+  }, [price, mileage, distance, people]);
+
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center py-2">
+    <>
       <Head>
-        <title>Create Next App</title>
+        <title>Fuel Contribution Calculator</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
-        <h1 className="text-6xl font-bold">
-          Welcome to{' '}
-          <a className="text-blue-600" href="https://nextjs.org">
-            Next.js!
-          </a>
+      <main className="max-w-7xl mx-auto">
+        <h1 className="text-5xl font-bold text-center">
+          Fuel Contribution Calculator
         </h1>
+        <form className="mt-6">
+          {/* Price */}
+          <div>
+            <label
+              htmlFor="price"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Price
+            </label>
+            <div className="mt-1">
+              <input
+                type="number"
+                name="price"
+                id="price"
+                className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                value={price}
+                onChange={(event) => setPrice(parseInt(event.target.value))}
+              />
+            </div>
+          </div>
 
-        <p className="mt-3 text-2xl">
-          Get started by editing{' '}
-          <code className="rounded-md bg-gray-100 p-3 font-mono text-lg">
-            pages/index.tsx
-          </code>
-        </p>
+          {/* Mileage */}
+          <div>
+            <label
+              htmlFor="mileage"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Mileage
+            </label>
+            <div className="mt-1">
+              <input
+                type="number"
+                name="mileage"
+                id="mileage"
+                className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                value={mileage}
+                onChange={(event) => setMileage(parseInt(event.target.value))}
+              />
+            </div>
+          </div>
 
-        <div className="mt-6 flex max-w-4xl flex-wrap items-center justify-around sm:w-full">
-          <a
-            href="https://nextjs.org/docs"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Documentation &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Find in-depth information about Next.js features and its API.
-            </p>
-          </a>
+          {/* Distance */}
+          <div>
+            <label
+              htmlFor="distance"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Distance
+            </label>
+            <div className="mt-1">
+              <input
+                type="number"
+                name="distance"
+                id="distance"
+                className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                value={distance}
+                onChange={(event) => setDistance(parseInt(event.target.value))}
+              />
+            </div>
+          </div>
 
-          <a
-            href="https://nextjs.org/learn"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Learn &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Learn about Next.js in an interactive course with quizzes!
-            </p>
-          </a>
+          {/* People */}
+          <div>
+            <label
+              htmlFor="people"
+              className="block text-sm font-medium text-gray-700"
+            >
+              People
+            </label>
+            <div className="mt-1">
+              <input
+                type="number"
+                name="people"
+                id="people"
+                className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                value={people}
+                onChange={(event) => setPeople(parseInt(event.target.value))}
+              />
+            </div>
+          </div>
+        </form>
 
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Examples &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Discover and deploy boilerplate example Next.js projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Deploy &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+        <div className="mt-4">
+          <p className="text-3xl text-center text-green-500">
+            Please pay <span className="font-bold">&#x20b9;{amount}</span>!
+          </p>
         </div>
       </main>
+    </>
+  );
+};
 
-      <footer className="flex h-24 w-full items-center justify-center border-t">
-        <a
-          className="flex items-center justify-center gap-2"
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-        </a>
-      </footer>
-    </div>
-  )
-}
-
-export default Home
+export default Home;
